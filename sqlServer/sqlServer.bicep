@@ -91,40 +91,6 @@ resource setting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
     workspaceId: workspaceId
     eventHubAuthorizationRuleId: eventHubAuthorizationRuleId
     eventHubName: eventHubName
-    logs: [
-      {
-        category: 'AutomaticTuning'
-        enabled: true
-      }
-      {
-        category: 'QueryStoreRuntimeStatistics'
-        enabled: true
-      }
-      {
-        category: 'QueryStoreWaitStatistics'
-        enabled: true
-      }
-      {
-        category: 'Errors'
-        enabled: true
-      }
-      {
-        category: 'DatabaseWaitStatistics'
-        enabled: true
-      }
-      {
-        category: 'Timeouts'
-        enabled: true
-      }
-      {
-        category: 'Blocks'
-        enabled: true
-      }
-      {
-        category: 'Deadlocks'
-        enabled: true
-      }
-    ]
     metrics: [
       {
         category: 'AllMetrics'
