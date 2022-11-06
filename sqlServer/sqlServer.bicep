@@ -16,6 +16,7 @@ param pvtDNSZoneID string
 param eventHubAuthorizationRuleId string
 param eventHubName string
 param workspaceId string
+param storageName string
 
 
 //Deploy Azure SQL Server
@@ -84,7 +85,7 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   ]
 }
 
-resource symbolicname 'Microsoft.Sql/servers/auditingSettings@2022-05-01-preview' = {
+resource enableSQLServerAudit 'Microsoft.Sql/servers/auditingSettings@2022-05-01-preview' = {
   name: 'default'
   parent: sqlServerDeployment
   properties: {
@@ -107,7 +108,7 @@ resource symbolicname 'Microsoft.Sql/servers/auditingSettings@2022-05-01-preview
   }
 }
 
-resource setting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource configureSQLServerAudit 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: 'Send to Event Hub and LaW'
   scope: sqlServerDeployment
   properties: {
@@ -121,5 +122,36 @@ resource setting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
       }
     ]
   }
+  dependsOn: [
+    enableSQLServerAudit
+  ]
 }
 
+resource enableSQLDefender 'Microsoft.Sql/servers/advancedThreatProtectionSettings@2022-05-01-preview' = {
+  name: 'Default'
+  parent: sqlServerDeployment
+  properties: {
+    state: 'Enabled'
+  }
+  dependsOn: [
+    configureSQLServerAudit
+  ]
+}
+
+resource enableSQLVulnerabilityScan 'Microsoft.Sql/servers/vulnerabilityAssessments@2022-05-01-preview' = {
+  name: 'default'
+  parent: sqlServerDeployment
+  properties: {
+    recurringScans: {
+      emails: [
+        'string'
+      ]
+      emailSubscriptionAdmins: false
+      isEnabled: true
+    }
+    storageContainerPath: 'concat(${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerabilityscans'}'
+  }
+  dependsOn: [
+    configureSQLServerAudit
+  ]
+}

@@ -57,5 +57,15 @@ resource storageDeployment 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   }
 }
 
+resource storageAccountBlobVulnerability 'Microsoft.Storage/storageAccounts/blobServices@2021-08-01' = {
+  name: 'default'
+  parent: storageDeployment
+}
+
+resource storageAccountContainerVulnerability 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
+  name: 'vulnerabilityscans'
+  parent: storageAccountBlobVulnerability
+}
+
 @description('The resource ID of the Azure SQL Server for the Private Endpoint.')
 output storageresourceresourceid string = storageDeployment.id
