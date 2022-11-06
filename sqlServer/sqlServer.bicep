@@ -84,8 +84,31 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   ]
 }
 
+resource symbolicname 'Microsoft.Sql/servers/auditingSettings@2022-05-01-preview' = {
+  name: 'default'
+  parent: sqlServerDeployment
+  properties: {
+    auditActionsAndGroups: [
+      'BACKUP_RESTORE_GROUP'
+      'DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP'
+      'DATABASE_OBJECT_PERMISSION_CHANGE_GROUP'
+      'DATABASE_PERMISSION_CHANGE_GROUP'
+      'DATABASE_PRINCIPAL_IMPERSONATION_GROUP'
+      'FAILED_DATABASE_AUTHENTICATION_GROUP'
+      'SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP'
+      'SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP'
+      'BATCH_COMPLETED_GROUP'
+      'DATABASE_OWNERSHIP_CHANGE_GROUP'
+    ]
+    isAzureMonitorTargetEnabled: true
+    isDevopsAuditEnabled: true
+    queueDelayMs: 1000
+    state: 'Enabled'
+  }
+}
+
 resource setting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: 'Send to Eventhub and LaW'
+  name: 'Send to Event Hub and LaW'
   scope: sqlServerDeployment
   properties: {
     workspaceId: workspaceId

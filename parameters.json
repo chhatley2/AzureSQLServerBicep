@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+
+    "parameters": {
+      "environmentName": {
+        "value": "Dev"
+      },
+      "location": {
+        "value": "resourceGroup().location"
+      },
+      "sqltlsversion": {
+        "value": "1.2"
+      },
+      "storagetlsversion": {
+        "value": "TLS1_2"
+      },
+      "azureSQLServerName": {
+        "value": "azsqlservertest1"
+      },
+      "resourceGroupName": {
+        "value": "azuresqlserverbicep-rg"
+      },
+      "storageName": {
+        "value": "azstorageaccounttest"
+      },
+      "financialTag": {
+        "value": {
+            "Finance": "chargeback"
+        }
+      },
+      "subscriptionId": {
+        "value": "508ee3b5-9a3f-4e79-985e-f4c0c4972af6"
+      }
+    }
+}
