@@ -5,7 +5,7 @@
 @description('Enviroment Azure SQL will be deployed in...')
 @allowed([
   'Dev'
-  'Live'
+  'Prod'
   'Stage'
 ])
 param environmentName string = 'Dev'
@@ -53,7 +53,7 @@ var environmentSettings = {
     subnetID: '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/gao-rg-sharedServices-dev/providers/Microsoft.Network/virtualNetworks/gao-vnet-sharedServices-dev/subnets/gao-snet-sharedServices-dev'
     suffix: 'stage'
   }
-  Live: {
+  Prod: {
     subnetID: '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/gao-rg-sharedServices-dev/providers/Microsoft.Network/virtualNetworks/gao-vnet-sharedServices-dev/subnets/gao-snet-sharedServices-dev'
     suffix: 'prod'
   }
