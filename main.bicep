@@ -1,7 +1,7 @@
 //Deploys an Azure SQL Server, Azure Blob Storage (for Defender for Cloud Vulnerabilites Assessments, Private Endpoints, and the first Azure SQL DB. Environmnet paramater dictates which subnet is used for Priavte Endpoint. 
 
 
-//Paramaters
+//Paramaters//
 @description('Enviroment Azure SQL will be deployed in...')
 @allowed([
   'Dev'
@@ -42,7 +42,7 @@ param subscriptionId string = '508ee3b5-9a3f-4e79-985e-f4c0c4972af6'
 
 
 
-//Varaibles
+//Varaibles//
 @description('Hard coded the Subnets since they dont change in my envrionment')
 var environmentSettings = {
   Dev: {
@@ -75,6 +75,8 @@ var login = 'sqlserveroperators'
 @description('Resource ID of LAW')
 var logAnalyticsID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourcegroups/azuresqlserverbicep-rg/providers/microsoft.operationalinsights/workspaces/exampletsaloganalytics-ws'
 
+@description('Path to Azure Storage Account called by Azure SQL DB to configure Vulnerability Assessments')
+var storageContainerPath = 'concat(${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerability-assessment'}'
 
 @description('Resource ID of Splunk Event Hub')
 var eventHubID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.EventHub/namespaces/SplunkEventHub5000/authorizationRules/RootManageSharedAccessKey'
@@ -94,8 +96,7 @@ var sqlPrivateEndpointName = concat('${'PE-'}${azureSQLServerName}${'-'}${enviro
 var stgPvtDNSGroupName = concat('${stgPrivateEndpointName}${'/Default'}')
 var sqlPvtDNSGroupName = concat('${sqlPrivateEndpointName}${'/Default'}')
 
-
-//Deployments
+//Deployments//
 
 
 //Required to pass KeyVault Secret into Azure SQL Server Module
@@ -157,6 +158,7 @@ module sqlServerModule './sqlServer/sqlServer.bicep' =  {
     eventHubName: eventHub
     workspaceId: logAnalyticsID
     storageName: storageName
+    storageContainerPath: storageContainerPath
   }
   dependsOn: [
     stgAccountModule
