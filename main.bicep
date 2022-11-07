@@ -18,7 +18,7 @@ param location string = resourceGroup().location
 ])
 param sqltlsversion string = '1.2'
 
-@description('Minimum TLS version. Made this a param so we can increase it in the future')
+@description('Minimum TLS version. Made this a param so we can increase it in the future. SQL looke for a different format than storage...')
 @allowed([
   'TLS1_2'
 ])
