@@ -109,7 +109,7 @@ resource enableSQLServerAudit 'Microsoft.Sql/servers/auditingSettings@2022-05-01
 }
 
 resource configureSQLServerAudit 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: 'Send to Event Hub and LaW'
+  name: 'SendtoEventHubandLaW'
   scope: sqlServerDeployment
   properties: {
     workspaceId: workspaceId
@@ -117,7 +117,6 @@ resource configureSQLServerAudit 'Microsoft.Insights/diagnosticSettings@2021-05-
     eventHubName: eventHubName
     metrics: [
       {
-        category: 'AllMetrics'
         enabled: true
       }
     ]
@@ -149,9 +148,9 @@ resource enableSQLVulnerabilityScan 'Microsoft.Sql/servers/vulnerabilityAssessme
       emailSubscriptionAdmins: false
       isEnabled: true
     }
-    storageContainerPath: 'concat(${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerabilityscans'}'
+    storageContainerPath: 'concat(${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerability-assessment'}'
   }
   dependsOn: [
-    configureSQLServerAudit
+    enableSQLDefender
   ]
 }

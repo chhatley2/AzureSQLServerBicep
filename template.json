@@ -1,0 +1,443 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "servers_azsqlservertest1_name": {
+            "defaultValue": "azsqlservertest1",
+            "type": "String"
+        },
+        "privateEndpoints_PE_azsqlservertest1_Dev_externalid": {
+            "defaultValue": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.Network/privateEndpoints/PE-azsqlservertest1-Dev",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[parameters('servers_azsqlservertest1_name')]",
+            "location": "usgovvirginia",
+            "tags": {
+                "tagName1": "chargeback"
+            },
+            "kind": "v12.0",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "administratorLogin": "sqladmin",
+                "version": "12.0",
+                "minimalTlsVersion": "1.2",
+                "publicNetworkAccess": "Disabled",
+                "administrators": {
+                    "administratorType": "ActiveDirectory",
+                    "principalType": "Group",
+                    "login": "sqlserveroperators",
+                    "sid": "07f482cf-aa13-43b1-a466-0193a574c59a",
+                    "tenantId": "8a09f2d7-8415-4296-92b2-80bb4666c5fc",
+                    "azureADOnlyAuthentication": false
+                },
+                "restrictOutboundNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/administrators",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/ActiveDirectory')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "administratorType": "ActiveDirectory",
+                "login": "sqlserveroperators",
+                "sid": "07f482cf-aa13-43b1-a466-0193a574c59a",
+                "tenantId": "8a09f2d7-8415-4296-92b2-80bb4666c5fc"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/CreateIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/DbParameterization')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/DefragmentIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/DropIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/ForceLastGoodPlan')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/auditingPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "location": "USGov Virginia",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "auditingState": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/auditingSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "isDevopsAuditEnabled": true,
+                "retentionDays": 0,
+                "auditActionsAndGroups": [
+                    "BACKUP_RESTORE_GROUP",
+                    "DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP",
+                    "DATABASE_OBJECT_PERMISSION_CHANGE_GROUP",
+                    "DATABASE_PERMISSION_CHANGE_GROUP",
+                    "DATABASE_PRINCIPAL_IMPERSONATION_GROUP",
+                    "FAILED_DATABASE_AUTHENTICATION_GROUP",
+                    "SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP",
+                    "SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP",
+                    "BATCH_COMPLETED_GROUP",
+                    "DATABASE_OWNERSHIP_CHANGE_GROUP"
+                ],
+                "isAzureMonitorTargetEnabled": true,
+                "queueDelayMs": 1000,
+                "isManagedIdentityInUse": false,
+                "state": "Enabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/azureADOnlyAuthentications",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "azureADOnlyAuthentication": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/connectionPolicies",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/default')]",
+            "location": "usgovvirginia",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "connectionType": "Default"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "location": "USGov Virginia",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "auditingState": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "isManagedIdentityInUse": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "isManagedIdentityInUse": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "location": "USGov Virginia",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "isAzureMonitorTargetEnabled": true,
+                "isManagedIdentityInUse": false,
+                "state": "Enabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/encryptionProtector",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyName": "ServiceManaged",
+                "serverKeyType": "ServiceManaged",
+                "autoRotationEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/extendedAuditingSettings",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "isDevopsAuditEnabled": true,
+                "retentionDays": 0,
+                "auditActionsAndGroups": [
+                    "BACKUP_RESTORE_GROUP",
+                    "DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP",
+                    "DATABASE_OBJECT_PERMISSION_CHANGE_GROUP",
+                    "DATABASE_PERMISSION_CHANGE_GROUP",
+                    "DATABASE_PRINCIPAL_IMPERSONATION_GROUP",
+                    "FAILED_DATABASE_AUTHENTICATION_GROUP",
+                    "SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP",
+                    "SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP",
+                    "BATCH_COMPLETED_GROUP",
+                    "DATABASE_OWNERSHIP_CHANGE_GROUP"
+                ],
+                "isAzureMonitorTargetEnabled": true,
+                "queueDelayMs": 1000,
+                "isManagedIdentityInUse": false,
+                "state": "Enabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/keys",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/ServiceManaged')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyType": "ServiceManaged"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/privateEndpointConnections",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/PE-', parameters('servers_azsqlservertest1_name'), '-Dev-d04e38e5-a121-4df3-9c6c-762858a616eb')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "privateEndpoint": {
+                    "id": "[parameters('privateEndpoints_PE_azsqlservertest1_Dev_externalid')]"
+                },
+                "privateLinkServiceConnectionState": {
+                    "status": "Approved",
+                    "description": "Auto-approved"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/securityAlertPolicies",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+            "apiVersion": "2022-02-01-preview",
+            "name": "[concat(parameters('servers_azsqlservertest1_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_azsqlservertest1_name'))]"
+            ],
+            "properties": {
+                "storageContainerPath": "https://azstorageaccounttest.blob.core.usgovcloudapi.net/vulnerability-assessment/",
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true,
+                    "emails": []
+                }
+            }
+        }
+    ]
+}

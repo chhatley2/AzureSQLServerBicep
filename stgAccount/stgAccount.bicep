@@ -63,7 +63,7 @@ resource storageAccountBlobVulnerability 'Microsoft.Storage/storageAccounts/blob
 }
 
 resource storageAccountContainerVulnerability 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
-  name: 'vulnerabilityscans'
+  name: 'vulnerability-assessment'
   parent: storageAccountBlobVulnerability
 }
 

@@ -25,13 +25,13 @@ param sqltlsversion string = '1.2'
 param storagetlsversion string = 'TLS1_2'
 
 @description('Azure SQL Server name.')
-param azureSQLServerName string = 'azsqlservertest1'
+param azureSQLServerName string = 'azsqlservertest2'
 
 @description('Resource Group to be used for deployment. Will need to run CLI command to create it as step one of the job')
 param resourceGroupName string = 'azuresqlserverbicep-rg'
 
 @description('Name of the Azure SQL Vulernability Stroage Account')
-param storageName string = 'azstorageaccounttest'
+param storageName string = 'azstorageaccounttestii'
 
 @description('Financial Tag value for deployed resources')
 param financialTag string = 'chargeback'
