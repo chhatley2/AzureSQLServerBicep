@@ -16,7 +16,7 @@ param pvtDNSZoneID string
 param eventHubAuthorizationRuleId string
 param eventHubName string
 param workspaceId string
-param storageContainerPath string
+param storagePath string
 
 
 //Deploy Azure SQL Server
@@ -148,9 +148,11 @@ resource enableSQLVulnerabilityScan 'Microsoft.Sql/servers/vulnerabilityAssessme
       emailSubscriptionAdmins: false
       isEnabled: true
     }
-    storageContainerPath: storageContainerPath
+    storageContainerPath: storagePath
   }
   dependsOn: [
     enableSQLDefender
   ]
 }
+
+output storagepath string = storagePath

@@ -157,8 +157,7 @@ module sqlServerModule './sqlServer/sqlServer.bicep' =  {
     eventHubAuthorizationRuleId: eventHubID
     eventHubName: eventHub
     workspaceId: logAnalyticsID
-    storageName: storageName
-    storageContainerPath: storageContainerPath
+    storagePath: storageContainerPath
   }
   dependsOn: [
     stgAccountModule
