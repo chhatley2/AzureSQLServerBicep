@@ -25,13 +25,13 @@ param sqltlsversion string = '1.2'
 param storagetlsversion string = 'TLS1_2'
 
 @description('Azure SQL Server name.')
-param azureSQLServerName string = 'azsqlservertest5'
+param azureSQLServerName string = 'azsqlservertest6'
 
 @description('Resource Group to be used for deployment. Will need to run CLI command to create it as step one of the job')
 param resourceGroupName string = 'azuresqlserverbicep-rg'
 
 @description('Name of the Azure SQL Vulernability Stroage Account')
-param storageName string = 'azstorageaccountsvtest'
+param storageName string = 'azstorageaccountsvtest6'
 
 @description('Financial Tag value for deployed resources')
 param financialTag string = 'chargeback'
@@ -76,7 +76,7 @@ var login = 'sqlserveroperators'
 var logAnalyticsID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourcegroups/azuresqlserverbicep-rg/providers/microsoft.operationalinsights/workspaces/exampletsaloganalytics-ws'
 
 @description('Path to Azure Storage Account called by Azure SQL DB to configure Vulnerability Assessments')
-var storageContainerPath = 'concat(${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerability-assessment'})'
+var storageContainerPath = concat('${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerability-assessment'}')
 
 @description('Resource ID of Splunk Event Hub')
 var eventHubID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.EventHub/namespaces/SplunkEventHub5000/authorizationRules/RootManageSharedAccessKey'
