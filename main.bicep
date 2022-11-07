@@ -55,7 +55,7 @@ var environmentSettings = {
   }
   Live: {
     subnetID: '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/gao-rg-sharedServices-dev/providers/Microsoft.Network/virtualNetworks/gao-vnet-sharedServices-dev/subnets/gao-snet-sharedServices-dev'
-    suffix: 'live'
+    suffix: 'prod'
   }
 }
 
@@ -69,7 +69,7 @@ var tenantID = '8a09f2d7-8415-4296-92b2-80bb4666c5fc'
 @description('Azure AD Object ID of the Group Being Syncronized and Nested into Azure SQL Server Admin')
 var sqlOperatorObjectID = '07f482cf-aa13-43b1-a466-0193a574c59a'
 
-@description('Name of the Azrue AD Group being granded Azure SQL Server Admin permissions')
+@description('Name of the Azrue AD Group being granted Azure SQL Server Admin permissions')
 var login = 'sqlserveroperators'
 
 @description('Resource ID of LAW')
@@ -82,7 +82,7 @@ var storageContainerPath = concat('${'https://'}${storageName}${'.blob.core.usgo
 var eventHubID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.EventHub/namespaces/SplunkEventHub5000/authorizationRules/RootManageSharedAccessKey'
 var eventHub = 'SplunkEventHub5000'
 
-@description('Information for Jenkins Service Account to pull secret out of KeyVault')
+@description('Information for GitHub/Jenkins/ADO Service Account to pull secret out of KeyVault')
 var kvName = 'sqlkeyvault'
 var kvResourceGroup = resourceGroupName
 
