@@ -5,7 +5,7 @@
 @description('Enviroment Azure SQL will be deployed in...')
 @allowed([
   'Dev'
-  'Prod'
+  'Live'
   'Stage'
 ])
 param environmentName string = 'Dev'
@@ -25,13 +25,13 @@ param sqltlsversion string = '1.2'
 param storagetlsversion string = 'TLS1_2'
 
 @description('Azure SQL Server name.')
-param azureSQLServerName string = 'azsqlservertest6'
+param azureSQLServerName string = 'azsqlservertsatest01'
 
 @description('Resource Group to be used for deployment. Will need to run CLI command to create it as step one of the job')
 param resourceGroupName string = 'azuresqlserverbicep-rg'
 
 @description('Name of the Azure SQL Vulernability Stroage Account')
-param storageName string = 'azstorageaccountsvtest6'
+param storageName string = 'azsqlservervultest'
 
 @description('Financial Tag value for deployed resources')
 param financialTag string = 'chargeback'
@@ -53,9 +53,9 @@ var environmentSettings = {
     subnetID: '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/gao-rg-sharedServices-dev/providers/Microsoft.Network/virtualNetworks/gao-vnet-sharedServices-dev/subnets/gao-snet-sharedServices-dev'
     suffix: 'stage'
   }
-  Prod: {
+  Live: {
     subnetID: '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/gao-rg-sharedServices-dev/providers/Microsoft.Network/virtualNetworks/gao-vnet-sharedServices-dev/subnets/gao-snet-sharedServices-dev'
-    suffix: 'prod'
+    suffix: 'live'
   }
 }
 
@@ -73,17 +73,17 @@ var sqlOperatorObjectID = '07f482cf-aa13-43b1-a466-0193a574c59a'
 var login = 'sqlserveroperators'
 
 @description('Resource ID of LAW')
-var logAnalyticsID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourcegroups/azuresqlserverbicep-rg/providers/microsoft.operationalinsights/workspaces/exampletsaloganalytics-ws'
+var logAnalyticsID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourcegroups/azuresqlserverbicep-rg/providers/microsoft.operationalinsights/workspaces/azsqltsalaw-dev'
 
 @description('Path to Azure Storage Account called by Azure SQL DB to configure Vulnerability Assessments')
 var storageContainerPath = concat('${'https://'}${storageName}${'.blob.core.usgovcloudapi.net/'}${'vulnerability-assessment'}')
 
 @description('Resource ID of Splunk Event Hub')
-var eventHubID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.EventHub/namespaces/SplunkEventHub5000/authorizationRules/RootManageSharedAccessKey'
-var eventHub = 'SplunkEventHub5000'
+var eventHubID = '/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/azuresqlserverbicep-rg/providers/Microsoft.EventHub/namespaces/aztsqltsatesteventhub/authorizationRules/RootManageSharedAccessKey'
+var eventHub = 'aztsqltsatesteventhub'
 
 @description('Information for GitHub/Jenkins/ADO Service Account to pull secret out of KeyVault')
-var kvName = 'sqlkeyvault'
+var kvName = 'azsqltsakv'
 var kvResourceGroup = resourceGroupName
 
 @description('DNS Zones and IDs used to configure Storagte and SQL Private endpoints')
