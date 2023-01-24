@@ -1,0 +1,2 @@
+﻿environmentName,location,sqltlsversion,storagetlsversion,azureSQLServerName,resourceGroupName,storageName,financialTag,subscriptionId
+Dev,resourceGroup().location,1.2,TLS1_2,azsqlservertest2,azuresqlserverbicep-rg,azstorageaccounttest,chargeback,508ee3b5-9a3f-4e79-985e-f4c0c4972af6
